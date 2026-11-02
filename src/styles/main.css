@@ -524,6 +524,51 @@ button { font: inherit; }
     left: 3rem; /* сдвиг фото вправо только на десктопе */
   }
 }
+.loop-video {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.loop-video > video,
+.loop-video__poster {
+  object-position: inherit;
+}
+.loop-video > video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+.loop-video.is-playing > video { opacity: 1; }
+.loop-video__poster {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity .45s ease, filter .45s ease, transform .45s ease;
+}
+.loop-video.is-playing .loop-video__poster { opacity: 0; }
+.loop-video.image-card > video,
+.loop-video.hero-photo > video {
+  filter: none;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  transform: none;
+}
+.loop-video.image-card:hover > video,
+.loop-video.hero-photo:hover > video {
+  filter: none;
+  transform: none;
+}
 .video-grid {
   display: grid;
   gap: 1rem;
@@ -536,7 +581,8 @@ button { font: inherit; }
   border-radius: 2rem;
   background: #111;
 }
-.video-grid video {
+.video-grid video,
+.video-grid .loop-video__poster {
   display: block;
   width: 100%;
   height: 100%;
@@ -545,10 +591,11 @@ button { font: inherit; }
   border-radius: 0;
   background: #111;
   filter: grayscale(1) contrast(1.08);
-  transition: filter .45s ease, transform .45s ease;
+  transition: opacity .45s ease, filter .45s ease, transform .45s ease;
   cursor: pointer;
 }
-.video-grid video:hover {
+.video-grid .loop-video:hover video,
+.video-grid .loop-video:hover .loop-video__poster {
   filter: grayscale(0) contrast(1.02);
   transform: scale(1.01);
 }
